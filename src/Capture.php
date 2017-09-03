@@ -76,6 +76,13 @@ class Capture
     protected $backgroundColor = '';
 
     /**
+     * Content to inject into the page
+     *
+     * @var string
+     */
+    protected $content = false;
+
+    /**
      * Image Type, default is jpeg
      *
      * @var Type
@@ -205,6 +212,7 @@ class Capture
             'width'         => $this->width,
             'height'        => $this->height,
             'imageLocation' => LocalPath::sanitize($this->imageLocation),
+            'content'       => $this->content,
         );
 
         if ($this->clipWidth && $this->clipHeight) {
@@ -572,6 +580,20 @@ class Capture
     public function setOptions($options)
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Set the content for the page
+     *
+     * @param string $content
+     *
+     * @return $this
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
 
         return $this;
     }
