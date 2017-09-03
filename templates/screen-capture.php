@@ -1,3 +1,4 @@
+var base64 = require('base-64');
 var page = require('webpage').create();
 
 page.viewportSize = {width: <?php echo $width ?>, height: <?php echo $height ?>};
@@ -73,7 +74,7 @@ page.open('<?php echo $url ?>', function (status) {
 
     var address = 'http://example.com/';
 
-    var page_content = '<?php echo $content; ?>';
+    var page_content = base64.decode('<?php echo $content; ?>');
 
 
     page.viewportSize = {width: 1024, height: 768};
