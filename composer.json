@@ -1,5 +1,5 @@
 {
-  "name": "microweber/screen",
+  "name": "darylldoyle/screen",
   "description": "A PHP Class to interact with PhantomJs and capture screenshot of a webpage",
   "keywords": [
     "phantomjs",
@@ -18,6 +18,11 @@
       "name": "André Filipe",
       "email": "andre.r.flip@gmail.com",
       "homepage": "http://masnathan.com"
+    },
+    {
+      "name": "Daryll Doyle",
+      "email": "daryll@enshrined.co.uk",
+      "homepage": "http://enshrined.co.uk"
     }
   ],
   "require": {
