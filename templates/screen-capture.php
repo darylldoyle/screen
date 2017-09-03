@@ -70,32 +70,49 @@ page.open('<?php echo $url ?>', function (status) {
 });
 <?php else: ?>
 
-    page.content = '<?php echo $content ?>';
 
-    <?php if (isset($includedJsScripts)) : ?>
-        <?php foreach ($includedJsScripts as $script) : ?>
-            page.injectJs('<?php echo $script ?>');
-        <?php endforeach ?>
-    <?php endif ?>
+    var address = 'http://example.com/';
 
-    page.evaluate(function() {
-    <?php if (isset($backgroundColor)) : ?>
-        /* This will set the page background color */
-        if (document && document.body) {
-        document.body.bgColor = '<?php echo $backgroundColor ?>';
+    var page_content = '<?php echo $content; ?>';
+
+
+    page.viewportSize = {width: 1024, height: 768};
+
+    page.open(address, function(status) {
+        if (status !== 'success') {
+            phantom.exit();
+        } else {
+
+            <?php if (isset($includedJsScripts)) : ?>
+                <?php foreach ($includedJsScripts as $script) : ?>
+                    page.injectJs('<?php echo $script ?>');
+                <?php endforeach ?>
+            <?php endif ?>
+
+            page.evaluate(function() {
+                <?php if (isset($backgroundColor)) : ?>
+                    if (document && document.body) {
+                        document.body.bgColor = '<?php echo $backgroundColor ?>';
+                    }
+                <?php endif ?>
+
+                <?php if (isset($includedJsSnippets)) : ?>
+                    <?php foreach ($includedJsSnippets as $script) : ?>
+                        <?php echo $script ?>
+                    <?php endforeach ?>
+                <?php endif ?>
+            });
+
+            page.setContent(page_content, address);
+            page.onLoadFinished = function(status) {
+                 if(status !== 'success') {
+                        phantom.exit();
+                 } else {
+                        page.render('<?php echo $imageLocation ?>');
+                        phantom.exit();
+                 }
+            };
         }
-    <?php endif ?>
-
-    <?php if (isset($includedJsSnippets)) : ?>
-        <?php foreach ($includedJsSnippets as $script) : ?>
-            <?php echo $script ?>
-        <?php endforeach ?>
-    <?php endif ?>
     });
-
-    setTimeout(function() {
-    page.render('<?php echo $imageLocation ?>');
-    phantom.exit();
-    }, <?php echo (isset($delay) ? $delay : 0); ?>);
 
 <?php endif ?>
